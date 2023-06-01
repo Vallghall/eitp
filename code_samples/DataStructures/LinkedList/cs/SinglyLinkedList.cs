@@ -2,7 +2,7 @@ using System.Text;
 
 
 // Обертка, выступающая в виде фиктивного узла
-public class List<T> where T : IComparable
+public class List<T> where T : IComparable<T>
 {
     // Узел
     internal class Node 
@@ -111,6 +111,7 @@ public class List<T> where T : IComparable
 
         T result = this.head.value;
         this.head = this.head.next;
+        this.length--;
 
         return result;
     }
@@ -120,7 +121,9 @@ public class List<T> where T : IComparable
     {
         if (this.head is null)
             return default(T);
-			
+
+        this.length--;
+		
 		if (this.head.next is null)
 		{
 			T result = this.head.value;
@@ -137,6 +140,29 @@ public class List<T> where T : IComparable
         }
 
         prev.next = null;
+        return cur.value;
+    }
+
+    public T? Delete(int idx)
+    {
+        if (idx < 0 || idx >= this.Length)
+                throw new System.IndexOutOfRangeException();
+
+        if (idx == 0) return this.Shift();
+
+        Node prev = this.head;
+		Node cur = prev.next;
+        int j = 1;
+        while (j < idx)
+        {
+            prev = cur;
+            cur = cur.next;
+            j++;
+        }
+
+        prev.next = cur.next;
+        this.length--;
+
         return cur.value;
     }
 
@@ -173,6 +199,27 @@ public class List<T> where T : IComparable
 
             cur.value = value;
         }
+    }
+
+    public T? Head() => this.head.value;
+
+    public List Tail() => new List(){
+        length = this.Length - 1,
+        head = this.head.next
+    };
+
+    public int Find(T val)
+    {
+        Node cur = this.head;
+        for (int i = 0; i < this.Length; i++)
+        {
+            if (cur.value.CompareTo(val) == 0)
+                return i;
+
+            cur = cur.next;
+        }
+
+        return -1;
     }
 
     public override string ToString()
