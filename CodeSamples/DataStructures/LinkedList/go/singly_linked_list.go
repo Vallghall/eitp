@@ -208,6 +208,10 @@ func (l *List[T]) Find(value T) int {
 	return -1
 }
 
+func (l List[T]) Length() int {
+	return l.length
+}
+
 func (l List[T]) String() string {
 	sb := new(strings.Builder)
 	sb.WriteRune('[')
