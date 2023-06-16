@@ -14,6 +14,23 @@ function List:new()
     return setmetatable({head = nil, length = 0}, self)
 end
 
+function List:of(...)
+    local len = select("#", ...)
+    local l = setmetatable({length = len}, self)
+    if len == 0 then
+        return l
+    end
+
+    l.head = node:new(select(1,...))
+    local cur = l.head
+    for i = 2, len, 1 do
+        cur.next = node:new(select(i,...))
+        cur = cur.next
+    end
+
+    return l
+end
+
 -- метаметод для печати объекта списка
 function List:__tostring()
     local str = "["
@@ -42,10 +59,12 @@ end
 
 -- вставка в конец списка
 function List:append(v)
+    ---@type table
     local n = node:new(v)
     self.length = self.length + 1
 
     if self.head == nil then
+        ---@type table
         self.head = n
         return
     end
@@ -155,7 +174,7 @@ end
 
 
 -- возврат значения из головы списка
-function List:head()
+function List:first()
     return self.head.value
 end
 
@@ -216,9 +235,15 @@ function List:reverse()
     local tmp = cur.next
     repeat
         cur.next = prv
+        prv = cur
         cur = tmp
         tmp = tmp.next
     until cur.next == nil
+
+    cur.next = prv
+    self.head = cur
+
+    return self
 end
 
 return List
