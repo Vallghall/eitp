@@ -26,8 +26,8 @@ func (l *listStack[T]) Pop() T {
 
 // Peek - Получение верхнего элемента стека, без удаления
 func (l *listStack[T]) Peek() (result T, ok bool) {
-	if result = l.xs.Head(); result != nil {
-		return result, true
+	if l.Size() > 0 {
+		return l.xs.Head(), true
 	}
 
 	return result, false
