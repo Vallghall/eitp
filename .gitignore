@@ -1,3 +1,6 @@
 # IDEs
 .idea/
 .vscode/
+
+# files made for testing purposes
+test.lua

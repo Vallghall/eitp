@@ -222,3 +222,25 @@ func (l List[T]) String() string {
 
 	return strings.TrimRight(sb.String(), ",") + "]"
 }
+
+func (l *List[T]) Reverse() *List[T] {
+	if l.Length() < 2 {
+		return l
+	}
+
+	cur := l.head
+	next := cur.next
+	var prev *node[T]
+
+	for cur.next != nil {
+		cur.next = prev
+		prev = cur
+		cur = next
+		next = next.next
+	}
+
+	cur.next = prev
+	l.head = cur
+
+	return l
+}

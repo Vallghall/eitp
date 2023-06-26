@@ -1,6 +1,6 @@
 package stack
 
-import list "eitp/CodeSamples/DataStructures/LinkedList/go"
+import list "eitp/Data/LinkedList"
 
 // listStack - стек на основе связного списка
 type listStack[T comparable] struct {

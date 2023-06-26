@@ -227,7 +227,7 @@ end
 -- разворот списка
 function List:reverse()
     if #self < 2 then
-        return
+        return self
     end
 
     local cur = self.head
